@@ -6,7 +6,7 @@ module.exports = {
   //absolute string to the directory that contains entry files
   //main file of our application
   entry: path.join(__dirname, 'src', 'index.js'),
-  mode: 'development',
+  mode: process.env.NODE_ENV,
   //ouput tells webpack how to write the compiled files to disk
   //can only be one output
   //where webpack will put it's files after bundling
@@ -19,7 +19,6 @@ module.exports = {
   //dev server settings
   devServer: {
     //port app will run on
-    port:'3000',
     //directory webpack will use to server static files
     static: {
       directory: path.join(__dirname, 'public')
@@ -48,7 +47,19 @@ module.exports = {
             presets: ['@babel/preset-env', '@babel/preset-react']
           }
         }
-      }
+      },
+      {
+        test: /\.(css|scss)$/,
+        exclude: /node_modules/,
+        use: [
+          // Creates `style` nodes from JS strings
+          'style-loader',
+          // Translates CSS into CommonJS
+          'css-loader',
+          // Compiles Sass to CSS
+          'sass-loader',
+        ],
+      },
     ]
   },
   plugins: [
